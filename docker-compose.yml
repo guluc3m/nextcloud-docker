@@ -6,7 +6,7 @@ services:
     restart: always
     networks:
       cloud:
-        ipv4_address: 172.19.0.5
+        ipv4_address: 172.19.0.6
     volumes:
       - db:/var/lib/postgresql/data
     env_file:
@@ -17,14 +17,14 @@ services:
     restart: always
     networks:
       cloud:
-        ipv4_address: 172.19.0.4
+        ipv4_address: 172.19.0.5
 
   app:
     image: nextcloud:fpm-alpine
     restart: always
     networks:
       cloud:
-        ipv4_address: 172.19.0.3
+        ipv4_address: 172.19.0.4
     volumes:
       - nextcloud:/var/www/html
     environment:
@@ -52,6 +52,9 @@ services:
   cron:
     image: nextcloud:fpm-alpine
     restart: always
+    networks:
+      cloud:
+        ipv4_address: 172.19.0.3
     volumes:
       - nextcloud:/var/www/html
     entrypoint: /cron.sh
@@ -66,8 +69,7 @@ volumes:
 networks:
   cloud:
     driver: bridge
-      ipam:
-        driver: default
-          config:
-            - subnet: 172.19.0.0/24
-              gateway: 172.19.0.1
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.19.0.0/24
