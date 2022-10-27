@@ -59,7 +59,6 @@ services:
 
 volumes:
   db:
-    dbdata:
     driver: local
     driver_opts:
       type: 'none'
