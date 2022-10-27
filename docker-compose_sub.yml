@@ -9,6 +9,7 @@ services:
         ipv4_address: 172.22.0.6
     volumes:
       - db:/var/lib/postgresql/data
+      - ./nextcloud_db_scripts:/docker-entrypoint-initdb.d:ro
     env_file:
       - db.env
 
