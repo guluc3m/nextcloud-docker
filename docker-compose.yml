@@ -6,7 +6,7 @@ services:
       cloud:
         ipv4_address: 172.22.0.5
     volumes:
-      - db:/mnt/repositorios/nextcloud/db:/var/lib/postgresql/data
+      - db:/var/lib/postgresql/data
       - ./nextcloud_db_scripts:/docker-entrypoint-initdb.d:ro
     env_file:
       - db.env
@@ -27,15 +27,19 @@ services:
       cloud:
         ipv4_address: 172.22.0.3
     volumes:
-      - nextcloud:/mnt/repositorios/nextcloud:/var/www/html/data
-      - ./app/config:/var/www/html/config
-      - ./app/custom_apps:/var/www/html/custom_apps
-      - ./app/data:/var/www/html/data
-      - ./app/themes:/var/www/html/themes
+      - nextcloud:/var/www/html/
+      #- ./app/config:/var/www/html/config
+      #- ./app/custom_apps:/var/www/html/custom_apps
+      #- ./app/data:/var/www/html/data
+      #- ./app/themes:/var/www/html/themes
       - /etc/localtime:/etc/localtime:ro
     environment:
       - POSTGRES_HOST=db
       - REDIS_HOST=redis
+      - PHP_MEMORY_LIMIT=1G
+      - PHP_UPLOAD_LIMIT=20G
+      - NEXTCLOUD_TRUSTED_DOMAINS=cloud-gul.uc3m.es
+      - TRUSTED_PROXIES=172.22.0.1 10.117.156.23
     env_file:
       - db.env
     depends_on:
@@ -49,12 +53,26 @@ services:
       cloud:
         ipv4_address: 172.22.0.2
     volumes:
-      - nextcloud:/mnt/repositorios/nextcloud:/var/www/html/data
+      - nextcloud:/var/www/html/
     entrypoint: /cron.sh
     depends_on:
       - db
       - redis
-  
+
+volumes:
+  db:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/mnt/repositorios/nextcloud/db'
+  nextcloud:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/mnt/repositorios/nextcloud/data'
+
 networks:
   cloud:
     driver: bridge
