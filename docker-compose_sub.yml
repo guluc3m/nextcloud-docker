@@ -6,7 +6,7 @@ services:
     restart: always
     networks:
       cloud:
-        ipv4_address: 172.19.0.6
+        ipv4_address: 172.22.0.6
     volumes:
       - db:/var/lib/postgresql/data
     env_file:
@@ -17,16 +17,16 @@ services:
     restart: always
     networks:
       cloud:
-        ipv4_address: 172.19.0.5
+        ipv4_address: 172.22.0.5
 
   app:
     image: nextcloud:fpm-alpine
     restart: always
     networks:
       cloud:
-        ipv4_address: 172.19.0.4
+        ipv4_address: 172.22.0.4
     volumes:
-      - nextcloud:/var/www/html
+      - nextcloud:/mnt/repositorios/nextcloud:/var/www/html/
       - ./app/config:/var/www/html/config
       - ./app/custom_apps:/var/www/html/custom_apps
       - ./app/data:/var/www/html/data
@@ -48,9 +48,9 @@ services:
       - 8080:80
     networks:
       cloud:
-        ipv4_address: 172.19.0.2
+        ipv4_address: 172.22.0.2
     volumes:
-      - nextcloud:/var/www/html:ro
+      - nextcloud:/mnt/repositorios/nextcloud:/var/www/html/:ro
     depends_on:
       - app
 
@@ -59,9 +59,9 @@ services:
     restart: always
     networks:
       cloud:
-        ipv4_address: 172.19.0.3
+        ipv4_address: 172.22.0.3
     volumes:
-      - nextcloud:/var/www/html
+      - nextcloud:/mnt/repositorios/nextcloud:/var/www/html/
     entrypoint: /cron.sh
     depends_on:
       - db
@@ -77,4 +77,4 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 172.19.0.0/24
+        - subnet: 172.22.0.0/24

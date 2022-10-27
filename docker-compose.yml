@@ -37,7 +37,6 @@ services:
     environment:
       - POSTGRES_HOST=db
       - REDIS_HOST=redis
-      - OVERWRITEWEBROOT=/cloud
     env_file:
       - db.env
     depends_on:
