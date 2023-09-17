@@ -1,7 +1,7 @@
 # gul-nextcloud
 
 ## Instalación
-Para levantar el Nextcloud del GUL es necesario seguir los siguientes pasos (siempre y cuando hayas montado el NFS de la Universidad):
+Para levantar el Nextcloud del GUL es necesario seguir los siguientes pasos (siempre y cuando hayas montado el NFS de la Universidad, por defecto en `/mnt/repositorios`, puedes comprobar la configuración del NFS en el archivo `/etc/fstab` del servidor):
 
 1. Copia los archivos `.sample` a archivos sin el `.sample`.
    E.g.: `db.env.sample` → `db.env`.
